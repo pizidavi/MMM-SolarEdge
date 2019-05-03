@@ -16,7 +16,7 @@ A Solar Module for MagicMirror2 designed to integrate with a SolarEdge System
 	position: 'bottom_left',
 	config: {
 		apiKey: "################################", //Requires your own API Key
-		siteId: "67", //SolarEdge system ID
+		siteId: "12345", //SolarEdge site ID
 	}
  },
 ```
