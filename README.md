@@ -23,7 +23,7 @@ A Solar Module for MagicMirror2 designed to integrate with a SolarEdge System
 **Note:** Only enter your API Key in the `config.js` file. Your API Key is yours alone, _do not_ post or use it elsewhere.
 
 ## Sample
-![alt text](https://github.com/bertieuk/MMM-Solar/blob/master/AppSample.PNG "Example")
+![alt text](https://github.com/bertieuk/MMM-SolarEdge/blob/master/SolarEdge.png "Example")
 
 ## Optional Config
 | **Option** | **Description** |
