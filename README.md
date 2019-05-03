@@ -1,30 +1,29 @@
-# MMM-Solar
-A Solar Module for MagicMirror2 designed to integrate with an Enphase Solar System
+# MMM-SolarEdge
+A Solar Module for MagicMirror2 designed to integrate with a SolarEdge System
 
 ## Dependencies
   * A [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror) installation
 
 ## Installation
   1. Clone repo into MagicMirror/modules directory
-  2. Get an Enlighten API key and authorize your application (instructions below).
-  3. Create an entry in 'config/config.js' with your API Key, UserId, SystemID, and any config options.
+  2. Get a SolarEdge API key and authorize your application (instructions below).
+  3. Create an entry in 'config/config.js' with your API Key, SiteID, and any config options.
 
  **Example:**
 ```
  {
-    module: 'MMM-Solar',
+    module: 'MMM-SolarEdge',
 	position: 'bottom_left',
 	config: {
 		apiKey: "################################", //Requires your own API Key
-		userId: "4d7a45774e6a41320a", //Enphase example user
-		systemId: "67", //Enphase example system
+		siteId: "67", //SolarEdge system ID
 	}
  },
 ```
 **Note:** Only enter your API Key in the `config.js` file. Your API Key is yours alone, _do not_ post or use it elsewhere.
 
 ## Sample
-![alt text](https://github.com/tkrywit/MMM-Solar/blob/master/AppSample.PNG "Example")
+![alt text](https://github.com/bertieuk/MMM-Solar/blob/master/AppSample.PNG "Example")
 
 ## Optional Config
 | **Option** | **Description** |
@@ -33,9 +32,5 @@ A Solar Module for MagicMirror2 designed to integrate with an Enphase Solar Syst
 
 ## API Key
 Use of this module requires
-  1. An API Key, which you can obtain at [The Enphase Developer Portal](https://developer.enphase.com/)
-  2. The User Id of the User whose system you wish to integrate. This can be found in your [Enlighten Manager Portal](https://enlighten.enphaseenergy.com/).
-  3. The System ID of the solar system you wish to monitor, which can also be found in the Enlighten Manager.
-
-## Attribution
-This module is powered by [Enphase](http://enphase.com/ "Enphase Homepage") and the [Enlighten API](https://developer.enphase.com/ "Enlighten API")
+  1. An API Key, which you can obtain by emailing SolarEdge support (e.g support-uk@solaredge.com )
+  2. The Site ID of the SolarEdge system you wish to monitor, which can be found in the Dashboard https://monitoring.solaredge.com
