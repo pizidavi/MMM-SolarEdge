@@ -93,7 +93,7 @@ Module.register("MMM-SolarEdge",{
             img.src = "/modules/MMM-SolarEdge/solar_white.png";
 
             var sTitle = document.createElement("p");
-            sTitle.innerHTML = "Solar PV";
+            sTitle.innerHTML = "SolarEdge PV";
             sTitle.className += " thin normal";
             imgDiv.appendChild(img);
     	      imgDiv.appendChild(sTitle);
