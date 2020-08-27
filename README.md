@@ -1,5 +1,5 @@
 # MMM-SolarEdge
-A [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror) module, for a SolarEdge system, representing the power produced, used and released/received from the network  
+A [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror) module, for a SolarEdge system, displaying the energy produced, used and received/released to the grid by your SolarEdge system, updated every minute  
 
 ## Installation
   1. Clone repo into MagicMirror/modules directory  
