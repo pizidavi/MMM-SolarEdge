@@ -31,7 +31,7 @@ Module.register('MMM-SolarEdge',{
 
   // Import additional CSS Styles
   getStyles: function() {
-    return ['solar.css']
+    return ['style.css']
   },
 
   // Contact node helper for solar data
