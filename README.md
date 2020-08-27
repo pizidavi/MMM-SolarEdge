@@ -1,5 +1,5 @@
 # MMM-SolarEdge
-A Solar Module for [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror) designed to integrate with a SolarEdge System  
+A [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror) module, for a SolarEdge system, representing the power produced, used and released/received from the network  
 
 ## Installation
   1. Clone repo into MagicMirror/modules directory  
@@ -20,6 +20,3 @@ A Solar Module for [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMi
  },
 ```
 **Note:** Only enter your API Key in the `config.js` file. Your API Key is yours alone, _do not_ post or use it elsewhere.  
-
-## Sample
-![alt]()
