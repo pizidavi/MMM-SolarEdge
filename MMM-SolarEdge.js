@@ -1,127 +1,91 @@
 /*
 * Magic Mirror module for displaying SolarEdge data
-* By bertieuk, forked from Thomas Krywitsky https://github.com/tkrywit/MMM-Solar
+* By pizidavi, forked from bertieuk https:// github.com/bertieuk/MMM-SolarEdge
 * MIT Licensed
 */
 
-Module.register("MMM-SolarEdge",{
-    // Default module config.
-    defaults: {
-        url: "https://monitoringapi.solaredge.com/site/",
-        apiKey: "", //Enter API key in config.js not here
-        siteId: "12345", //Sample site
-        refInterval: 1000 * 60 * 5, //5 minutes
-        basicHeader: false,
-    },
+Module.register('MMM-SolarEdge',{
+  // Default module config.
+  defaults: {
+    url: 'https:// monitoringapi.solaredge.com/site/',
+    apiKey: '', // Enter API key in config.js not here
+    siteId: '',
+    interval: 60*1000, // 1 minute
+  },
 
-    start: function() {
-        // Logging appears in Chrome developer tools console
-        Log.info("Starting module: " + this.name);
+  start: function() {
+    // Logging appears in developer tools console
+    Log.info('Starting module: ' + this.name);
 
-        this.titles = ["Current Power:", "Daily Energy:", "Last Month:", "Last Year:", "Lifetime Energy:"];
-        this.suffixes = ["Watts", "kWh", "kWh", "kWh", "MWh"];
-        this.results = ["Loading", "Loading", "Loading", "Loading", "Loading"];
-        this.loaded = false;
-        this.getSolarData();
+    this.loaded = false;
+    this.titles = ['Producted', 'Usaged', 'Released/Received'];
+    this.results = [];
 
-        if (this.config.basicHeader) {
-            this.data.header = 'SolarEdge PV';
-        }
+    this.getSolarData();
 
-        var self = this;
-        //Schedule updates
-        setInterval(function() {
-            self.getSolarData();
-            self.updateDom();
-        }, this.config.refInterval);
-    },
+    var self = this;
+    setInterval(function() {
+      self.getSolarData();
+    }, this.config.interval);
+  },
 
-
-
-    //Import additional CSS Styles
-    getStyles: function() {
+  // Import additional CSS Styles
+  getStyles: function() {
     return ['solar.css']
-    },
+  },
 
-    //Contact node helper for solar data
-    getSolarData: function() {
-        Log.info("SolarApp: getting data");
+  // Contact node helper for solar data
+  getSolarData: function() {
+    Log.info('SolarApp: getting data');
 
-        this.sendSocketNotification("GET_SOLAR", {
-            config: this.config
-          });
-    },
+    this.sendSocketNotification('GET_SOLAR', {
+      config: this.config
+    });
+  },
 
-    //Handle node helper response
-    socketNotificationReceived: function(notification, payload) {
-    if (notification === "SOLAR_DATA") {
-	    var currentPower = payload.overview.currentPower.power;
-	    if (currentPower > 1000) {
-               this.results[0] = (currentPower / 1000).toFixed(2) + " kW";
-            } else {
-               this.results[0] = currentPower + " Watts";
-            }
-            this.results[1] = (payload.overview.lastDayData.energy / 1000).toFixed(2) + " kWh";
-            this.results[2] = (payload.overview.lastMonthData.energy / 1000).toFixed(2) + " kWh";
-            this.results[3] = (payload.overview.lastYearData.energy / 1000).toFixed(2) + " kWh";
-            this.results[4] = (payload.overview.lifeTimeData.energy / 1000000).toFixed(2) + " MWh";
-            this.loaded = true;
-            this.updateDom(1000);
-        }
-    },
+  // Handle node helper response
+  socketNotificationReceived: function(notification, payload) {
+    if (notification === 'SOLAR_DATA') {
+      this.results[0] = payload.siteCurrentPowerFlow.PV.currentPower;	// Producted
+      this.results[1] = payload.siteCurrentPowerFlow.LOAD.currentPower;	// Usaged
+      this.results[2] = payload.siteCurrentPowerFlow.GRID.currentPower;	// Released/Received
 
-    // Override dom generator.
-    getDom: function() {
-
-        var wrapper = document.createElement("div");
-	if (this.config.apiKey === "" || this.config.siteId === "") {
-	    wrapper.innerHTML = "Missing configuration.";
-	    return wrapper;
-	}
-
-        //Display loading while waiting for API response
-        if (!this.loaded) {
-      	    wrapper.innerHTML = "Loading...";
-            return wrapper;
-      	}
-
-        var tb = document.createElement("table");
-
-        if (!this.config.basicHeader) {
-            var imgDiv = document.createElement("div");
-            var img = document.createElement("img");
-            img.src = "/modules/MMM-SolarEdge/solar_white.png";
-
-            var sTitle = document.createElement("p");
-            sTitle.innerHTML = "SolarEdge PV";
-            sTitle.className += " thin normal";
-            imgDiv.appendChild(img);
-    	      imgDiv.appendChild(sTitle);
-
-            var divider = document.createElement("hr");
-            divider.className += " dimmed";
-            wrapper.appendChild(imgDiv);
-            wrapper.appendChild(divider);
-        }
-
-      	for (var i = 0; i < this.results.length; i++) {
-        		var row = document.createElement("tr");
-
-        		var titleTr = document.createElement("td");
-        		var dataTr = document.createElement("td");
-
-        		titleTr.innerHTML = this.titles[i];
-//        		dataTr.innerHTML = this.results[i] + " " + this.suffixes[i];
-            dataTr.innerHTML = this.results[i];
-        		titleTr.className += " medium regular bright";
-        		dataTr.classname += " medium light normal";
-
-        		row.appendChild(titleTr);
-        		row.appendChild(dataTr);
-
-        		tb.appendChild(row);
-      	}
-        wrapper.appendChild(tb);
-        return wrapper;
+      this.loaded = true;
+      this.updateDom(1000);
     }
+  },
+
+  // Override dom generator.
+  getDom: function() {
+    var wrapper = document.createElement('div');
+
+    if (!this.config.apiKey || !this.config.siteId) {
+      wrapper.innerHTML = 'Missing configuration.';
+      return wrapper; }
+
+    if (!this.loaded) {
+	    wrapper.innerHTML = 'Loading...';
+      return wrapper; }
+
+    var tb = document.createElement('table');
+    for (var i = 0; i < this.results.length; i++) {
+      var row = document.createElement('tr');
+
+      var titleTr = document.createElement('td');
+      var dataTr = document.createElement('td');
+
+      titleTr.innerHTML = this.titles[i];
+      titleTr.className += ' medium regular bright';
+      dataTr.innerHTML = this.results[i];
+      dataTr.classname += ' medium light normal';
+
+      row.appendChild(titleTr);
+      row.appendChild(dataTr);
+
+      tb.appendChild(row);
+  	}
+    wrapper.appendChild(tb);
+
+    return wrapper;
+  }
 });
